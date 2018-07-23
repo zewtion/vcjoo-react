@@ -5,5 +5,8 @@
       "config/**/*.js",
       "node_modules/**/*.ts"
     ]
-  }
+  },
+  "no-empty": [false, "allow-empty-catch", "allow-empty-functions"],
+  "curly": [true, "as-needed"]
+  
 }

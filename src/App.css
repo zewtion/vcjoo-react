@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  text-align: left;
+  
 }
 
 .App-logo {
@@ -8,9 +9,9 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+  background-color: orange;
+  height: 65px;
+  padding: 10px;
   color: white;
 }
 
@@ -20,7 +21,112 @@
 
 .App-intro {
   font-size: large;
+  padding: 10px;
 }
+
+.btnNormal{
+  width : 100px;
+  cursor : pointer;
+  padding: 10px;
+}
+.btnColor {
+  width : 100px;
+  cursor : pointer;
+  background-color : orange;
+  color: white;
+  padding: 10px;
+}
+.btnNext{
+  text-align: right;
+  width: 100%;
+  cursor : pointer;
+  padding: 10px;
+}
+.App-open{
+  background-color: orange;
+  height: 30px;
+  padding: 10px;
+  color: white;
+}
+.App-close{
+  background-color: white;
+  height: 30px;
+  padding: 10px;
+  color: gray;
+  border: 2px;
+}
+.App-child{
+  padding: 30px;
+  background-color: lightgray;
+}
+
+.rating {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: white;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: orange
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: white;
+  text-shadow: 0 0 5px orange;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
