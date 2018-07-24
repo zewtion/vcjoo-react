@@ -167,7 +167,7 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
                     <option value=''>동 선택</option>
                     <option value={vData.danjis[0].dong[0].id}>{vData.danjis[0].dong[0].name}</option>
                 </select>
-                &nbsp;&nbsp;
+                &nbsp;&nbsp
                 <select className="selectBox">
                     <option value=''>층 선택</option>
                 </select>
