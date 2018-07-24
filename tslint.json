@@ -8,6 +8,6 @@
   },
   "no-empty": [false, "allow-empty-catch", "allow-empty-functions"],
   "curly": [true, "as-needed"],
-  "noUnusedLocals":[true]
-  
+  "noUnusedLocals":[true],
+  "array-type": [true, "generic"]
 }

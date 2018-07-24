@@ -1,6 +1,17 @@
 import * as React from 'react';
+import Select from 'react-select';
 import './App.css';
 import vData from './data.json';
+
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ];
+
+const tempDong = vData.danjis[0].dong;
+/* tslint:disable */
+let optionsDong:{value:string, label:string}[];
 
 class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, classNm3: string}> {
     constructor(props:any){
@@ -11,10 +22,20 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             classNm2: "App-child-close",
             classNm3: "App-child-close"
         }
+        window.console.log('print me: ' + vData.danjis[0].dong.length )
+        
+        for( let i=0; i<tempDong.length; i++ ){
+            optionsDong.push({value: vData.danjis[0].dong[i].id, label: vData.danjis[0].dong[i].name});
+            window.console.log('print me1: '+ vData.danjis[0].dong[i].id);
+            window.console.log('print me2: '+ vData.danjis[0].dong[i].name);
+            window.console.log('print me3: '+ optionsDong[i]);
+        }
+
     }
 
     public clickPrev = () => {
         /* tslint:disable:no-empty */
+        
     }
     public clickNext = () => {
         /* tslint:disable:no-empty */
@@ -34,6 +55,9 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             );
         }
     }
+    public MyComponent = () => (
+        <Select options={options} />
+      )
 
     public clickDiv2 = () => {
         if( this.state.classNm2 === "App-child-open" ){
@@ -162,15 +186,10 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
 
             <div id="div3" className="App-close" onClick={this.clickDiv3}>#동/층 정보[ 펼치기 ]</div>
             <div id="div31" className={this.state.classNm3}>
-                거주 하셨던 동, 층 정보를 입력해 주세요.
-                <select className="selectBox">
-                    <option value=''>동 선택</option>
-                    <option value={vData.danjis[0].dong[0].id}>{vData.danjis[0].dong[0].name}</option>
-                </select>
-                &nbsp;&nbsp
-                <select className="selectBox">
-                    <option value=''>층 선택</option>
-                </select>
+                거주 하셨던 동, 층 정보를 입력해 주세요.<br/>
+                {<Select options={optionsDong}/>}}
+                &nbsp;&nbsp;
+                {<Select options={options} />}
             </div>
             
             <br/>
