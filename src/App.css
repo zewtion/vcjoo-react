@@ -47,6 +47,7 @@
   height: 30px;
   padding: 10px;
   color: white;
+  cursor : pointer;
 }
 .App-close{
   background-color: white;
@@ -54,10 +55,15 @@
   padding: 10px;
   color: gray;
   border: 2px;
+  cursor : pointer;
 }
-.App-child{
+.App-child-open{
+  display: block;
   padding: 30px;
   background-color: lightgray;
+}
+.App-child-close{
+  display: none;
 }
 
 .rating {
@@ -127,6 +133,12 @@
   text-shadow: 0 0 5px orange;
 }
 
+.selectBox{
+  width: 120px;
+  height: 30px;
+  box-align: center;
+  text-align: center;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

@@ -32,7 +32,7 @@ export default class Step1 extends React.Component{
     }
     public clickNo(){
         switched = false;
-        self.close();
+        window.close();
     }
     public render(){
         

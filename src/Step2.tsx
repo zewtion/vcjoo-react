@@ -1,25 +1,70 @@
 import * as React from 'react';
 import './App.css';
+import vData from './data.json';
 
-
-class Step2 extends React.Component {
-    constructor(props: Readonly<{}>){
+class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, classNm3: string}> {
+    constructor(props:any){
         super(props);
 
-        this.clickDiv1 = this.clickDiv1.bind(this);
+        this.state = {
+            classNm1: "App-child-close",
+            classNm2: "App-child-close",
+            classNm3: "App-child-close"
+        }
     }
 
-    public clickPrev(){
+    public clickPrev = () => {
         /* tslint:disable:no-empty */
     }
-    public clickNext(){
+    public clickNext = () => {
         /* tslint:disable:no-empty */
     }
-    public clickDiv1(){
 
+    public clickDiv1 = () => {
+        window.console.log( 'is selected' );
+        if( this.state.classNm1 === "App-child-open" ){
+            this.setState({
+                    classNm1: "App-child-close"
+                }
+            );
+        }else{
+            this.setState({
+                    classNm1: "App-child-open"
+                }
+            );
+        }
     }
-  public render() {
-    return (
+
+    public clickDiv2 = () => {
+        if( this.state.classNm2 === "App-child-open" ){
+            this.setState({
+                    classNm2: "App-child-close"
+                }
+            );
+        }else{
+            this.setState({
+                    classNm2: "App-child-open"
+                }
+            );
+        }
+    }
+
+    public clickDiv3 = () => {
+        if( this.state.classNm3 === "App-child-open" ){
+            this.setState({
+                    classNm3: "App-child-close"
+                }
+            );
+        }else{
+            this.setState({
+                    classNm3: "App-child-open"
+                }
+            );
+        }
+    }
+
+    public render() {
+        return (
         <div className="App">
             <header className="App-header">
                 <h1 className="App-title">아파트 리뷰 작성하기 2/3</h1>
@@ -29,33 +74,33 @@ class Step2 extends React.Component {
             </p>
             
             <div id="div1" className="App-close" onClick={this.clickDiv1}>#교통여건[ 펼치기 ]</div>
-            <div id="div11" className="App-child" style={{display : 'none'}}>
+            <div id="div11" className={this.state.classNm1}>
                 대중교통 이용이나, 자동차 운행과 같은 교통여건에 대해 평가해주세요.(50자이상)<br/>
                 <form className="rating">
                     <label>
-                        <input type="radio" name="stars" value="1" />
+                        <input type="radio" name="stars1" value="1" />
                         <span className="icon">★</span>
                     </label>
                     <label>
-                        <input type="radio" name="stars" value="2" />
+                        <input type="radio" name="stars1" value="2" />
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                     </label>
                     <label>
-                        <input type="radio" name="stars" value="3" />
+                        <input type="radio" name="stars1" value="3" />
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                         <span className="icon">★</span>   
                     </label>
                     <label>
-                        <input type="radio" name="stars" value="4" />
+                        <input type="radio" name="stars1" value="4" />
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                     </label>
                     <label>
-                        <input type="radio" name="stars" value="5" />
+                        <input type="radio" name="stars1" value="5" />
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                         <span className="icon">★</span>
@@ -72,23 +117,68 @@ class Step2 extends React.Component {
                 <textarea placeholder="교통 여건의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
 
-            <div id="div2" className="App-close">#주변환경[ 펼치기 ]</div>
-            <div id="div21" className="App-child" style={{display : 'block'}}>
-            -
+            <div id="div2" className="App-close" onClick={this.clickDiv2}>#주변환경[ 펼치기 ]</div>
+            <div id="div21" className={this.state.classNm2}>
+                슈퍼(편의점), 백화점(대형마트), 산책로 공원 등의 주변 환경에 대해 말씀해주세요. (50자이상)
+                <form className="rating">
+                    <label>
+                        <input type="radio" name="stars2" value="1" />
+                        <span className="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars2" value="2" />
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars2" value="3" />
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>   
+                    </label>
+                    <label>
+                        <input type="radio" name="stars2" value="4" />
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="stars2" value="5" />
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                        <span className="icon">★</span>
+                    </label>
+                </form>
+                <br/><br/>
+                (예시)마을 버스로 2정거장이면 용산역 이마트도 있꼬, 정문 앞에 신선한 아채를 파는 레몬 마트가
+                있어서 장을 보기 편하다. 용산가족공원 바로 아래에 위치한 아파트여서, 아이들을 자주 데리고 나간다.
+                공기도 주변 아파트보다 더 맑은 느낌이다.<br/><br/>
+                <textarea placeholder="주변 환경의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
             
 
-            <div id="div3" className="App-close">#동/층 정보[ 펼치기 ]</div>
-            <div id="div31" className="App-child" style={{display : 'none'}}>
-            -
+            <div id="div3" className="App-close" onClick={this.clickDiv3}>#동/층 정보[ 펼치기 ]</div>
+            <div id="div31" className={this.state.classNm3}>
+                거주 하셨던 동, 층 정보를 입력해 주세요.
+                <select className="selectBox">
+                    <option value=''>동 선택</option>
+                    <option value={vData.danjis[0].dong[0].id}>{vData.danjis[0].dong[0].name}</option>
+                </select>
+                &nbsp;&nbsp;
+                <select className="selectBox">
+                    <option value=''>층 선택</option>
+                </select>
             </div>
             
             <br/>
             <code className="btnNext" onClick={this.clickPrev}>←이전</code>
             <code className="btnNext" onClick={this.clickNext}>다음 →</code>
         </div>
-    );
-  }
+        );
+    }
 }
 
 export default Step2;
