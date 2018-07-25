@@ -7,14 +7,10 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 
-export default class ModuleSelect extends React.Component<{}, {selectedOption:null}> {
-  constructor(props:any){
-    super(props);
-    this.state={
-        selectedOption: null
-    }
+export default class ModuleSelect extends React.Component {
+  public state = {
+    selectedOption: null,
   }
-  
   public handleChange = (selectedOption:any) => {
     this.setState({ selectedOption });
     window.console.log(`Option selected:`, selectedOption);

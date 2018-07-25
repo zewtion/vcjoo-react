@@ -1,26 +1,24 @@
 import * as React from 'react';
 import Select from 'react-select';
-import './App.css';
-import vData from './data.json';
+import '../App.css';
+import vData from '../data.json';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ];
 
 /* tslint:disable */
 let optionsDong:{value:string; label:string;}[] = [];
-let optionsFloor:{value:string; label:string;}[] = [];
+//let optionsFloor:{value:string; label:string;}[] = [];
 
-class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, classNm3: string}> {
+class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, classNm3: string, 
+    optionsFloor: {value:string; label:string;}[], selectedOption:string} > {
     constructor(props:any){
         super(props);
 
         this.state = {
             classNm1: "App-child-close",
             classNm2: "App-child-close",
-            classNm3: "App-child-close"
+            classNm3: "App-child-close",
+            optionsFloor: [],
+            selectedOption: ''
         }
         window.console.log('print me: ' + vData.danjis[0].dong.length )
         
@@ -29,7 +27,7 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             let v2:string = vData.danjis[0].dong[i].name;
             let v3:string = vData.danjis[0].dong[i].floor;
             optionsDong.push({value: v1, label: v2});
-            optionsFloor.push({value: v1, label: v3});
+            this.state.optionsFloor.push({value: v1, label: v3});
         }
     }
 
@@ -39,6 +37,30 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
     }
     public clickNext = () => {
         /* tslint:disable:no-empty */
+    }
+
+    public changeSelect = (value:any) => {
+        /* tslint:disable:no-empty */
+        this.setState({selectedOption:value});
+        let tempOptionsFloor:{value:string; label:string}[] = [];
+        for( let i=0; i<this.state.optionsFloor.length; i++ ){
+            if(this.state.optionsFloor[i].value === this.state.selectedOption){
+                tempOptionsFloor.push({value:this.state.optionsFloor[i].value, label:this.state.optionsFloor[i].label });
+            }
+        }
+        window.console.log( 'print me1: ' )
+        this.setState({ optionsFloor: tempOptionsFloor });
+    }
+
+    public selectBoxFloor = (selectedValue:any) => {
+        window.console.log( 'selectedValue: ' + selectedValue )
+        
+        if( selectedValue === null || selectedValue === ''){
+            return (<input type='text' placeholder='층 정보를 수기로 입력해주세요.'/>);
+        }else{
+            return (<Select options={this.state.optionsFloor}/>);
+            
+        }
     }
 
     public clickDiv1 = () => {
@@ -55,9 +77,6 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             );
         }
     }
-    public MyComponent = () => (
-        <Select options={options} />
-      )
 
     public clickDiv2 = () => {
         if( this.state.classNm2 === "App-child-open" ){
@@ -190,8 +209,8 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
                 <table> 
                     <tbody>
                         <tr> 
-                            <td style={{width: 150}}> {<Select options={optionsDong}/>} </td>
-                            <td style={{width: 150}}> {<Select options={optionsFloor} />} </td>
+                            <td style={{width: 150}}> {<Select options={optionsDong} onchange={this.changeSelect}/>} </td>
+                            <td style={{width: 150}}> {this.selectBoxFloor} </td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import './App.css';
-import registerServiceWorker from './registerServiceWorker';
+import '../App.css';
+import registerServiceWorker from '../registerServiceWorker';
 import Step2 from './Step2';
 
 let switched:boolean = false;
