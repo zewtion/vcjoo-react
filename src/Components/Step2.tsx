@@ -7,9 +7,9 @@ interface InterStates {
     classNm1: string, 
     classNm2: string, 
     classNm3: string,
-    optionsDong: Array<{value:string; label:string}>,
+    optionsDong: Array<{value:string; label:string; floor:number}>,
     optionsFloor: Array<{value:string; label:string}>,
-    selectedOption:string,
+    selectedOption:any,
     closeNm1:string,
     closeNm2:string,
     closeNm3:string
@@ -18,6 +18,17 @@ interface InterStates {
 class Step2 extends React.Component<{}, InterStates > {
     constructor(props:any){
         super(props);
+        
+        let tempArray1:Array<{value:string; label:string; floor:number}> = [];
+        let tempArray2:Array<{value:string; label:string}> = [];
+        tempArray1 = []; tempArray2 = [];
+
+        vData.danjis[0].dong.map( (x:any) => {
+            tempArray1.push({ value:x.id, label:x.name, floor:x.floor });
+        });
+        vData.danjis[0].dong.map( (x:any) => {
+            tempArray2.push({ value:x.id, label:x.floor });
+        });
 
         this.state = {
             classNm1: "App-child-close",
@@ -26,29 +37,27 @@ class Step2 extends React.Component<{}, InterStates > {
             closeNm1: "보기",
             closeNm2: "보기",
             closeNm3: "보기",
-            optionsDong: [],
-            optionsFloor: [],
+            optionsDong: tempArray1,
+            optionsFloor: tempArray2,
             selectedOption: ''
-        }
-        window.console.log('print me: ' + vData.danjis[0].dong.length )
-        
-        for( const i of vData.danjis[0].dong ){
-            // const v1:string = vData.danjis[0].dong[i].id;
-            // let v2:string = vData.danjis[0].dong[i].name;
-            // let v3:string = vData.danjis[0].dong[i].floor;
-            // this.state.optionsDong.push({value: v1, label: v2});
-            // this.state.optionsFloor.push({value: v1, label: v3});
-            window.console.log( 'v1: ' + i);
         }
     }
 
-    public changeSelect = (value:any) => {
+    public onChangeHandler = (selectedOption:any) => {
         /* tslint:disable:no-empty */
-        this.setState({selectedOption:value});
-        // let tempOptionsFloor:{value:string; label:string}[] = [];
-        
-        window.console.log( 'print me1: ' )
-        
+        this.setState({selectedOption});
+        let tempArray2:Array<{value:string; label:string}> = [];
+        if( selectedOption.floor === null ){
+            tempArray2 = [];
+        }else{
+            tempArray2 = [];
+            for( let i=1; i<=selectedOption.floor; i++ ){
+                tempArray2.push({ value:i+"", label:i+"" });
+            }
+        }
+        this.setState({
+            optionsFloor : tempArray2
+        });
     }
 
     public selectBoxFloor = (selectedValue:any) => {
@@ -99,12 +108,15 @@ class Step2 extends React.Component<{}, InterStates > {
     }
 
     public render() {
+        const { selectedOption } = this.state;
+        const isSelect = (typeof( selectedOption.floor ) === "number" && selectedOption.floor !== 0) ? true : false;
+
         const tbody = (
             <table> 
                 <tbody>
                     <tr> 
-                        <td style={{width: 150}}> {<Select options={this.state.optionsDong}/>} </td>
-                        <td style={{width: 150}}> {<Select options={this.state.optionsFloor}/>} </td>
+                        <td style={{width: 150}}> {<Select value={selectedOption} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
+                        <td style={{width: 150}}> {isSelect ? <Select options={this.state.optionsFloor}/> : <input className="txtBox" type="number" maxLength={3}/>} </td>
                     </tr>
                 </tbody>
             </table>

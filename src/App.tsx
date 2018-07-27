@@ -49,24 +49,23 @@ class App extends React.Component< {}, InterStates> {
       renderStep = (
         <div>
           <Step1 clickStep1Condition={this.clickStep1Condition} />
-          <p>
-            <code className="btnNext" onClick={this.clickNext}>다음 →</code>
-          </p>
         </div>
       );
     }else if( this.state.isStep === 2 ){
       renderStep = (
         <div>
           <Step2/>
-          <p>
-            <code className="btnNext" onClick={this.clickPrev}>← 이전</code>
-            <code className="btnNext" onClick={this.clickNext}>다음 →</code>
-          </p>
         </div>
       );
     }
     return (
-      <div> {renderStep} </div>
+      <div> 
+        {renderStep} 
+        <p>
+          { this.state.isStep === 1 ? <code/> : <code className="btnNext" onClick={this.clickPrev}>← 이전</code> }
+          <code className="btnNext" onClick={this.clickNext}>다음 →</code>
+        </p>
+      </div>
     );
   }
 }
