@@ -9,5 +9,6 @@
   "no-empty": [false, "allow-empty-catch", "allow-empty-functions"],
   "curly": [true, "as-needed"],
   "noUnusedLocals":[true],
-  "array-type": [true, "generic"]
+  "array-type": [true, "generic"],
+  "interface-name": [true, "never-prefix"]
 }

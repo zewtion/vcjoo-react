@@ -4,10 +4,13 @@ import '../App.css';
 import registerServiceWorker from '../registerServiceWorker';
 import Step2 from './Step2';
 
+interface InterProps { onClickYes:any }
+interface InterState { isStep1Condition :  boolean }
+
 let switched:boolean = false;
 
-export default class Step1 extends React.Component{
-    constructor(props: Readonly<{}>){
+export default class Step1 extends React.Component<InterProps, InterState>{
+    constructor(props:any){
         super(props);
         this.clickNext = this.clickNext.bind(this);
         this.clickYes = this.clickYes.bind(this);
@@ -25,10 +28,7 @@ export default class Step1 extends React.Component{
         registerServiceWorker();
     }
     public clickYes( this: any ){
-        switched = true;
-        this.style = {
-            backGroundColor : 'gray'
-        }
+        this.props.onClickYes(true);
     }
     public clickNo(){
         switched = false;
