@@ -6,10 +6,13 @@ import vData from '../data.json';
 interface InterStates {
     classNm1: string, 
     classNm2: string, 
-    classNm3: string, 
-    optionsFloor: Array<{values:string, labels:string}[]>, 
-    optionsDong: Array<{values:string; labels:string;}[]>,
-    selectedOption:string
+    classNm3: string,
+    optionsDong: Array<{value:string; label:string}>,
+    optionsFloor: Array<{value:string; label:string}>,
+    selectedOption:string,
+    closeNm1:string,
+    closeNm2:string,
+    closeNm3:string
 }
 
 class Step2 extends React.Component<{}, InterStates > {
@@ -20,32 +23,32 @@ class Step2 extends React.Component<{}, InterStates > {
             classNm1: "App-child-close",
             classNm2: "App-child-close",
             classNm3: "App-child-close",
-            optionsFloor: [],
+            closeNm1: "보기",
+            closeNm2: "보기",
+            closeNm3: "보기",
             optionsDong: [],
-            selectedOption: ""
+            optionsFloor: [],
+            selectedOption: ''
         }
         window.console.log('print me: ' + vData.danjis[0].dong.length )
         
-        for( let i=0; i<vData.danjis[0].dong.length; i++ ){
-            let v1:string = vData.danjis[0].dong[i].id;
-            let v2:string = vData.danjis[0].dong[i].name;
-            let v3:string = vData.danjis[0].dong[i].floor;
-            this.state.optionsDong.push({values: v1, labels: v2});
-            this.state.optionsFloor.push({values: v1, labels: v3});
+        for( const i of vData.danjis[0].dong ){
+            // const v1:string = vData.danjis[0].dong[i].id;
+            // let v2:string = vData.danjis[0].dong[i].name;
+            // let v3:string = vData.danjis[0].dong[i].floor;
+            // this.state.optionsDong.push({value: v1, label: v2});
+            // this.state.optionsFloor.push({value: v1, label: v3});
+            window.console.log( 'v1: ' + i);
         }
     }
 
     public changeSelect = (value:any) => {
         /* tslint:disable:no-empty */
         this.setState({selectedOption:value});
-        let tempOptionsFloor:{value:string; label:string}[] = [];
-        for( let i=0; i<this.state.optionsFloor.length; i++ ){
-            if(this.state.optionsFloor[i].values === this.state.selectedOption){
-                tempOptionsFloor.push({value:this.state.optionsFloor[i].value, label:this.state.optionsFloor[i].label });
-            }
-        }
+        // let tempOptionsFloor:{value:string; label:string}[] = [];
+        
         window.console.log( 'print me1: ' )
-        this.setState({ optionsFloor: tempOptionsFloor });
+        
     }
 
     public selectBoxFloor = (selectedValue:any) => {
@@ -59,50 +62,53 @@ class Step2 extends React.Component<{}, InterStates > {
         }
     }
 
-    public clickDiv1 = () => {
-        window.console.log( 'is selected' );
-        if( this.state.classNm1 === "App-child-open" ){
+    public clickDiv = ( value:number ) => {
+        if( value === 1 && this.state.classNm1 === "App-child-open" ){
             this.setState({
-                    classNm1: "App-child-close"
-                }
-            );
-        }else{
+                classNm1: "App-child-close",
+                closeNm1: "보기"
+            });
+        }else if( value === 1 && this.state.classNm1 === "App-child-close" ){
             this.setState({
-                    classNm1: "App-child-open"
-                }
-            );
+                classNm1: "App-child-open",
+                closeNm1: "닫기"
+            });
+        }else if( value === 2 && this.state.classNm2 === "App-child-open" ){
+            this.setState({
+                classNm2: "App-child-close",
+                closeNm2: "보기"
+            });
+        }else if( value === 2 && this.state.classNm2 === "App-child-close" ){
+            this.setState({
+                classNm2: "App-child-open",
+                closeNm2: "닫기"
+            });
+        }else if( value === 3 && this.state.classNm3 === "App-child-open" ){
+            this.setState({
+                classNm3: "App-child-close",
+                closeNm3: "보기"
+            });
+        }else if( value === 3 && this.state.classNm3 === "App-child-close" ){
+            this.setState({
+                classNm3: "App-child-open",
+                closeNm3: "닫기"
+            });
         }
-    }
 
-    public clickDiv2 = () => {
-        if( this.state.classNm2 === "App-child-open" ){
-            this.setState({
-                    classNm2: "App-child-close"
-                }
-            );
-        }else{
-            this.setState({
-                    classNm2: "App-child-open"
-                }
-            );
-        }
-    }
-
-    public clickDiv3 = () => {
-        if( this.state.classNm3 === "App-child-open" ){
-            this.setState({
-                    classNm3: "App-child-close"
-                }
-            );
-        }else{
-            this.setState({
-                    classNm3: "App-child-open"
-                }
-            );
-        }
+       
     }
 
     public render() {
+        const tbody = (
+            <table> 
+                <tbody>
+                    <tr> 
+                        <td style={{width: 150}}> {<Select options={this.state.optionsDong}/>} </td>
+                        <td style={{width: 150}}> {<Select options={this.state.optionsFloor}/>} </td>
+                    </tr>
+                </tbody>
+            </table>
+        )
         return (
         <div className="App">
             <header className="App-header">
@@ -112,7 +118,7 @@ class Step2 extends React.Component<{}, InterStates > {
                 검색한 단지에 대해 아래의 항목들을 입력해주세요.
             </p>
             
-            <div id="div1" className="App-close" onClick={this.clickDiv1}>#교통여건[ 펼치기 ]</div>
+            <div id="div1" className="App-close" onClick={this.clickDiv.bind(this, 1)}><input type="checkBox" name="check1"/>교통여건[ {this.state.closeNm1} ]</div>
             <div id="div11" className={this.state.classNm1}>
                 대중교통 이용이나, 자동차 운행과 같은 교통여건에 대해 평가해주세요.(50자이상)<br/>
                 <form className="rating">
@@ -156,7 +162,7 @@ class Step2 extends React.Component<{}, InterStates > {
                 <textarea placeholder="교통 여건의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
 
-            <div id="div2" className="App-close" onClick={this.clickDiv2}>#주변환경[ 펼치기 ]</div>
+            <div id="div2" className="App-close" onClick={this.clickDiv.bind(this, 2)}><input type="checkBox" name="check2"/>주변환경[ {this.state.closeNm2} ]</div>
             <div id="div21" className={this.state.classNm2}>
                 슈퍼(편의점), 백화점(대형마트), 산책로 공원 등의 주변 환경에 대해 말씀해주세요. (50자이상)
                 <form className="rating">
@@ -197,22 +203,12 @@ class Step2 extends React.Component<{}, InterStates > {
                 공기도 주변 아파트보다 더 맑은 느낌이다.<br/><br/>
                 <textarea placeholder="주변 환경의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
-            
 
-            <div id="div3" className="App-close" onClick={this.clickDiv3}>#동/층 정보[ 펼치기 ]</div>
+            <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}><input type="checkBox" name="check3"/>동/층 정보[ {this.state.closeNm3} ]</div>
             <div id="div31" className={this.state.classNm3}>
                 거주 하셨던 동, 층 정보를 입력해 주세요.<br/>
-                <table> 
-                    <tbody>
-                        <tr> 
-                            <td style={{width: 150}}> {<Select options={this.state.optionsDong} onchange={this.changeSelect}/>} </td>
-                            <td style={{width: 150}}> {this.selectBoxFloor} </td>
-                        </tr>
-                    </tbody>
-                </table>
+                {tbody}
             </div>
-            
-            <br/>
         </div>
         );
     }

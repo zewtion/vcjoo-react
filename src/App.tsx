@@ -3,7 +3,10 @@ import './App.css';
 import Step1 from './Components/Step1';
 import Step2 from './Components/Step2';
 
-interface InterStates { isStep1Condition: boolean, isStep:number }
+interface InterStates { 
+  isStep1Condition: boolean, 
+  isStep:number 
+}
 
 class App extends React.Component< {}, InterStates> {
   constructor(props:any){
@@ -15,25 +18,28 @@ class App extends React.Component< {}, InterStates> {
     }
   }
 
+  // 스텝1 유효성 검사
   public clickStep1Condition = ( value:boolean ) => {
-    window.console.log( 'value: ' + value );
     this.setState({
         isStep1Condition : value
     });
   }
 
+  // 이전버튼 클릭
   public clickPrev = () => {
-      /* tslint:disable:no-empty */
+    this.setState({
+      isStep : this.state.isStep - 1
+    });
   }
+
+  // 다음버튼 클릭
   public clickNext = () => {
-    if( this.state.isStep === 1 ){
-      if( this.state.isStep1Condition ){
-        this.setState({
-          isStep : 2
-        });
-      }else{
-        window.alert('[네] 선택 후 넘어갈 수 있습니다');
-      }
+    if( !this.state.isStep1Condition ){
+      window.alert('[네] 선택 후 넘어갈 수 있습니다');
+    }else{
+      this.setState({
+        isStep : this.state.isStep + 1
+      });
     }
   }
 
@@ -60,9 +66,7 @@ class App extends React.Component< {}, InterStates> {
       );
     }
     return (
-      <div>
-        {renderStep}
-      </div>
+      <div> {renderStep} </div>
     );
   }
 }
