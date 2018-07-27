@@ -1,38 +1,38 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import '../App.css';
-import registerServiceWorker from '../registerServiceWorker';
-import Step2 from './Step2';
 
-interface InterProps { onClickYes:any }
-interface InterState { isStep1Condition :  boolean }
+interface InterProps { clickStep1Condition:any }
+interface InterStates { value2:string }
 
-let switched:boolean = false;
-
-export default class Step1 extends React.Component<InterProps, InterState>{
+export default class Step1 extends React.Component<InterProps, InterStates>{
     constructor(props:any){
         super(props);
-        this.clickNext = this.clickNext.bind(this);
         this.clickYes = this.clickYes.bind(this);
         this.clickNo = this.clickNo.bind(this);
-        
-    }
-    
-    
-    public clickNext(){
-        if( !switched ) {
-            alert( '네, 선택 후 이동 가능 합니다' );
-            return
+
+        this.state={
+            value2: " "
         }
-        ReactDOM.render(<Step2 />, document.getElementById('root') as HTMLElement);
-        registerServiceWorker();
     }
-    public clickYes( this: any ){
-        this.props.onClickYes(true);
+    
+    public clickYes = () => {
+        this.setState(
+            {
+                value2 : " [네]"
+            }
+        )
+        this.props.clickStep1Condition(true);
     }
     public clickNo(){
-        switched = false;
-        window.close();
+        this.setState(
+            {
+                value2 : " [아니오]"
+            }
+        )
+        this.props.clickStep1Condition(false);
+        if( window.confirm('창을 닫습니다') ){
+            window.close();
+        }
     }
     public render(){
         
@@ -42,13 +42,12 @@ export default class Step1 extends React.Component<InterProps, InterState>{
                     <h1 className="App-title">아파트 리뷰 작성하기 1/3</h1>
                 </header>
                 <p className="App-intro">
-                    최근 5년 이내 아파트에 거주한 경험이 있나요 ?
+                    최근 5년 이내 아파트에 거주한 경험이 있나요 ? <code>{ this.state.value2 }</code>
                 </p>
                 <p>
                     <button className="btnNormal" onClick={this.clickNo}> 아니오 </button> &nbsp;
                     <button className="btnColor" onClick={this.clickYes}> 네 </button>
                 </p>
-                <code className="btnNext" onClick={this.clickNext}>다음 →</code>
             </div>
         );
     }

@@ -3,13 +3,16 @@ import Select from 'react-select';
 import '../App.css';
 import vData from '../data.json';
 
+interface InterStates {
+    classNm1: string, 
+    classNm2: string, 
+    classNm3: string, 
+    optionsFloor: Array<{values:string, labels:string}[]>, 
+    optionsDong: Array<{values:string; labels:string;}[]>,
+    selectedOption:string
+}
 
-/* tslint:disable */
-let optionsDong:{value:string; label:string;}[] = [];
-//let optionsFloor:{value:string; label:string;}[] = [];
-
-class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, classNm3: string, 
-    optionsFloor: {value:string; label:string;}[], selectedOption:string} > {
+class Step2 extends React.Component<{}, InterStates > {
     constructor(props:any){
         super(props);
 
@@ -18,7 +21,8 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             classNm2: "App-child-close",
             classNm3: "App-child-close",
             optionsFloor: [],
-            selectedOption: ''
+            optionsDong: [],
+            selectedOption: ""
         }
         window.console.log('print me: ' + vData.danjis[0].dong.length )
         
@@ -26,17 +30,9 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             let v1:string = vData.danjis[0].dong[i].id;
             let v2:string = vData.danjis[0].dong[i].name;
             let v3:string = vData.danjis[0].dong[i].floor;
-            optionsDong.push({value: v1, label: v2});
-            this.state.optionsFloor.push({value: v1, label: v3});
+            this.state.optionsDong.push({values: v1, labels: v2});
+            this.state.optionsFloor.push({values: v1, labels: v3});
         }
-    }
-
-    public clickPrev = () => {
-        /* tslint:disable:no-empty */
-        
-    }
-    public clickNext = () => {
-        /* tslint:disable:no-empty */
     }
 
     public changeSelect = (value:any) => {
@@ -44,7 +40,7 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
         this.setState({selectedOption:value});
         let tempOptionsFloor:{value:string; label:string}[] = [];
         for( let i=0; i<this.state.optionsFloor.length; i++ ){
-            if(this.state.optionsFloor[i].value === this.state.selectedOption){
+            if(this.state.optionsFloor[i].values === this.state.selectedOption){
                 tempOptionsFloor.push({value:this.state.optionsFloor[i].value, label:this.state.optionsFloor[i].label });
             }
         }
@@ -209,7 +205,7 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
                 <table> 
                     <tbody>
                         <tr> 
-                            <td style={{width: 150}}> {<Select options={optionsDong} onchange={this.changeSelect}/>} </td>
+                            <td style={{width: 150}}> {<Select options={this.state.optionsDong} onchange={this.changeSelect}/>} </td>
                             <td style={{width: 150}}> {this.selectBoxFloor} </td>
                         </tr>
                     </tbody>
@@ -217,8 +213,6 @@ class Step2 extends React.Component<{}, {classNm1: string, classNm2: string, cla
             </div>
             
             <br/>
-            <code className="btnNext" onClick={this.clickPrev}>←이전</code>
-            <code className="btnNext" onClick={this.clickNext}>다음 →</code>
         </div>
         );
     }
