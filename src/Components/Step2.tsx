@@ -19,8 +19,8 @@ class Step2 extends React.Component<{}, InterStates > {
     constructor(props:any){
         super(props);
         
-        let tempArray1:Array<{value:string; label:string; floor:number}> = [];
-        let tempArray2:Array<{value:string; label:string}> = [];
+        let tempArray1:Array<{value:string; label:string; floor:number}>;
+        let tempArray2:Array<{value:string; label:string}>;
         tempArray1 = []; tempArray2 = [];
 
         vData.danjis[0].dong.map( (x:any) => {
@@ -103,8 +103,6 @@ class Step2 extends React.Component<{}, InterStates > {
                 closeNm3: "닫기"
             });
         }
-
-       
     }
 
     public render() {
