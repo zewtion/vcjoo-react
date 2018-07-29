@@ -122,6 +122,7 @@ class Step2 extends React.Component<{}, InterStates > {
         }else{
             isPass = true;
         }
+        // 2번째 selectBox에 대한 예외처리 ... 좀 복잡한데... 인자 값을 2개로 줘야 하나.. ?
 
         // toggle to checkBox
         if( isPass ){
