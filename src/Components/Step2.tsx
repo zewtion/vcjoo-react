@@ -9,10 +9,12 @@ interface InterStates {
     classNm3: string,
     optionsDong: Array<{value:string; label:string; floor:number}>,
     optionsFloor: Array<{value:string; label:string}>,
-    selectedOption:any,
+    selectedOption1:any,
+    selectedOption2:any,
     closeNm1:string,
     closeNm2:string,
-    closeNm3:string
+    closeNm3:string,
+    checked3:boolean
 }
 
 class Step2 extends React.Component<{}, InterStates > {
@@ -31,6 +33,7 @@ class Step2 extends React.Component<{}, InterStates > {
         });
 
         this.state = {
+            checked3: false,
             classNm1: "App-child-close",
             classNm2: "App-child-close",
             classNm3: "App-child-close",
@@ -39,13 +42,14 @@ class Step2 extends React.Component<{}, InterStates > {
             closeNm3: "보기",
             optionsDong: tempArray1,
             optionsFloor: tempArray2,
-            selectedOption: ''
+            selectedOption1: '',
+            selectedOption2: ''
         }
     }
 
     public onChangeHandler = (selectedOption:any) => {
         /* tslint:disable:no-empty */
-        this.setState({selectedOption});
+        this.setState({selectedOption1 : selectedOption});
         let tempArray2:Array<{value:string; label:string}> = [];
         if( selectedOption.floor === null ){
             tempArray2 = [];
@@ -58,6 +62,8 @@ class Step2 extends React.Component<{}, InterStates > {
         this.setState({
             optionsFloor : tempArray2
         });
+
+        this.checkComplete(selectedOption);
     }
 
     public selectBoxFloor = (selectedValue:any) => {
@@ -105,15 +111,39 @@ class Step2 extends React.Component<{}, InterStates > {
         }
     }
 
+    // 섹션 별 상태가 변경 되면 작성 조건이 충족 되었는지 체크한다
+    public checkComplete = (selectedOption:any) => {
+        let isPass:boolean = false;
+
+        if( typeof(selectedOption.value) === 'undefined' ){
+            isPass = false;
+        }else if( selectedOption.value === '' ){
+            isPass = false
+        }else{
+            isPass = true;
+        }
+
+        // toggle to checkBox
+        if( isPass ){
+            this.setState({ checked3 : true });
+        }else{
+            this.setState({ checked3 : false });
+        }
+    }
+
+    public componentDidUpdate( selectedOption:any ){
+        /* tslint:disable:no-empty */
+        // window.console.log(" selectedOption.value: " + selectedOption.value );
+    }
     public render() {
-        const { selectedOption } = this.state;
-        const isSelect = (typeof( selectedOption.floor ) === "number" && selectedOption.floor !== 0) ? true : false;
+        const { selectedOption1 } = this.state;
+        const isSelect = (typeof( selectedOption1.floor ) === "number" && selectedOption1.floor !== 0) ? true : false;
 
         const tbody = (
             <table> 
                 <tbody>
                     <tr> 
-                        <td style={{width: 150}}> {<Select value={selectedOption} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
+                        <td style={{width: 150}}> {<Select value={selectedOption1} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
                         <td style={{width: 150}}> {isSelect ? <Select options={this.state.optionsFloor}/> : <input className="txtBox" type="number" maxLength={3}/>} </td>
                     </tr>
                 </tbody>
@@ -214,7 +244,7 @@ class Step2 extends React.Component<{}, InterStates > {
                 <textarea placeholder="주변 환경의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
 
-            <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}><input type="checkBox" name="check3"/>동/층 정보[ {this.state.closeNm3} ]</div>
+            <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}><input type="checkBox" checked={this.state.checked3} name="check3"/>동/층 정보[ {this.state.closeNm3} ]</div>
             <div id="div31" className={this.state.classNm3}>
                 거주 하셨던 동, 층 정보를 입력해 주세요.<br/>
                 {tbody}
