@@ -11,6 +11,7 @@ interface InterStates {
     optionsFloor: Array<{value:string; label:string}>,
     selectedOption1:any,
     selectedOption2:any,
+    selectedOption3:string,
     closeNm1:string,
     closeNm2:string,
     closeNm3:string,
@@ -42,8 +43,9 @@ class Step2 extends React.Component<{}, InterStates > {
             closeNm3: "보기",
             optionsDong: tempArray1,
             optionsFloor: tempArray2,
-            selectedOption1: '',
-            selectedOption2: ''
+            selectedOption1: "",
+            selectedOption2: "",
+            selectedOption3: ""
         }
     }
 
@@ -63,7 +65,7 @@ class Step2 extends React.Component<{}, InterStates > {
             optionsFloor : tempArray2
         });
 
-        this.checkComplete(selectedOption);
+        // this.checkComplete(selectedOption);
     }
 
     public selectBoxFloor = (selectedValue:any) => {
@@ -115,21 +117,46 @@ class Step2 extends React.Component<{}, InterStates > {
     public checkComplete = (selectedOption:any) => {
         let isPass:boolean = false;
 
-        if( typeof(selectedOption.value) === 'undefined' ){
+        window.console.log("selectedOption3["+this.state.selectedOption3+"]");
+
+        if( typeof(selectedOption.target) === "object" && selectedOption.target.value === "" ){
+            this.setState({
+                selectedOption2 : "",
+                selectedOption3 : selectedOption.target.value
+            });
+        }
+
+        if( typeof(selectedOption.target) === "object" ){
+            this.setState({
+                selectedOption2 : "",
+                selectedOption3 : selectedOption.target.value
+            });
+        }else if(typeof(selectedOption.target) !== "object"){
+            this.setState({
+                selectedOption2 : selectedOption,
+                selectedOption3 : ""
+            });
+        }
+        
+        if( typeof(this.state.selectedOption1.value) === 'undefined' || this.state.selectedOption1.value === '' ){
             isPass = false;
-        }else if( selectedOption.value === '' ){
-            isPass = false
         }else{
             isPass = true;
         }
-        // 2번째 selectBox에 대한 예외처리 ... 좀 복잡한데... 인자 값을 2개로 줘야 하나.. ?
 
-        // toggle to checkBox
-        if( isPass ){
-            this.setState({ checked3 : true });
+        if( typeof(this.state.selectedOption2.value) === 'undefined' || this.state.selectedOption2.value !== '' ){
+            isPass = false;
         }else{
-            this.setState({ checked3 : false });
+            isPass = true;
         }
+
+        if( !isPass && this.state.selectedOption3 === "" ){
+            isPass = false;
+        }else{
+            isPass = true;
+        }
+        // toggle to checkBox
+        isPass ? this.setState({ checked3 : true }) : this.setState({ checked3 : false });
     }
 
     public componentDidUpdate( selectedOption:any ){
@@ -137,7 +164,7 @@ class Step2 extends React.Component<{}, InterStates > {
         // window.console.log(" selectedOption.value: " + selectedOption.value );
     }
     public render() {
-        const { selectedOption1 } = this.state;
+        const { selectedOption1, selectedOption2, selectedOption3 } = this.state;
         const isSelect = (typeof( selectedOption1.floor ) === "number" && selectedOption1.floor !== 0) ? true : false;
 
         const tbody = (
@@ -145,7 +172,9 @@ class Step2 extends React.Component<{}, InterStates > {
                 <tbody>
                     <tr> 
                         <td style={{width: 150}}> {<Select value={selectedOption1} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
-                        <td style={{width: 150}}> {isSelect ? <Select options={this.state.optionsFloor}/> : <input className="txtBox" type="number" maxLength={3}/>} </td>
+                        <td style={{width: 150}}> {isSelect ? 
+                            <Select value={selectedOption2} onChange={this.checkComplete} options={this.state.optionsFloor}/> : 
+                                <input className="txtBox" value={selectedOption3} onChange={this.checkComplete} type="text" />} </td>
                     </tr>
                 </tbody>
             </table>
@@ -245,7 +274,9 @@ class Step2 extends React.Component<{}, InterStates > {
                 <textarea placeholder="주변 환경의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
             </div>
 
-            <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}><input type="checkBox" checked={this.state.checked3} name="check3"/>동/층 정보[ {this.state.closeNm3} ]</div>
+            <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}>
+                <input type="checkBox" checked={this.state.checked3} name="check3"/>동/층 정보[ {this.state.closeNm3} ]
+            </div>
             <div id="div31" className={this.state.classNm3}>
                 거주 하셨던 동, 층 정보를 입력해 주세요.<br/>
                 {tbody}
