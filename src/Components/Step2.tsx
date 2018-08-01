@@ -26,7 +26,8 @@ interface InterStates {
 
 interface InterProps{
     clickPrev:any,
-    clickNext:any
+    clickNext:any,
+    saveStep2:any
 }
 
 class Step2 extends React.Component<InterProps, InterStates > {
@@ -65,6 +66,8 @@ class Step2 extends React.Component<InterProps, InterStates > {
             value22: ""
         }
     }
+
+    
 
     public onChangeHandler = (selectedOption:any) => {
         /* tslint:disable:no-empty */
@@ -261,11 +264,25 @@ class Step2 extends React.Component<InterProps, InterStates > {
 
     // 다음버튼 클릭
     public clickNext = () => {
-        if( this.checkStep2 ){
+        const vv2:boolean = this.checkStep2();
+        if( vv2 ){
+            this.saveStep2();
             this.props.clickNext();
         }else{
             alert("채워지지 않은 부분이 있습니다");
         }
+    }
+
+    // 기록한 정보를 저장한다
+    public saveStep2 = () =>{
+        let myObject:any = null;
+        myObject = {
+            value11 : this.state.value11,
+            value12 : this.state.value12,
+            value21 : this.state.value21,
+            value22 : this.state.value21
+        }
+        this.props.saveStep2( myObject );
     }
 
     public componentDidUpdate( selectedOption:any ){
@@ -280,8 +297,8 @@ class Step2 extends React.Component<InterProps, InterStates > {
             <table> 
                 <tbody>
                     <tr> 
-                        <td style={{width: 150}}> {<Select value={selectedOption1} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
-                        <td style={{width: 150}}> {isSelect ? 
+                        <td style={{width: 150, border: 0}}> {<Select value={selectedOption1} onChange={this.onChangeHandler} options={this.state.optionsDong}/>} </td>
+                        <td style={{width: 150, border: 0}}> {isSelect ? 
                             <Select value={selectedOption2} onChange={this.checkComplete} options={this.state.optionsFloor}/> : 
                                 <input className="txtBox" value={selectedOption3} onChange={this.checkComplete} type="text" />} </td>
                     </tr>

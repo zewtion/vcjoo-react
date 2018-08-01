@@ -1,3 +1,29 @@
-.App{
+.S3App{
+    margin: 10px;
+    width: 95%;
+    padding-bottom: 10px;
+}
+
+.S3Line{
+    border-bottom: 1px solid gray;
+}
+
+.S3App .S3table{
+    
+    width: 90%;
+}
+
+.S3td{
     text-align: center;
+    background-color: white;
+    color: black;
+}
+.S3tdClick{
+    text-align: center;
+    background-color: orange;
+    color: white;
+}
+
+th, td{
+    border: 1px solid gray;
 }
