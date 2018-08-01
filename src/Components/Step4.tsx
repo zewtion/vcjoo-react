@@ -8,16 +8,21 @@ interface InterProps{
 
 interface InterState{
     step2v:any,
-    step3v:any
+    step3v:any,
+    today:string
 }
 
 class Step4 extends React.Component<InterProps,InterState>{
     constructor(props:any){
         super(props);
 
+        const today:any = new Date();
+        const date:any = today.getFullYear()+'.'+(today.getMonth()+1)+'.'+today.getDate()+ ' 등록';
+
         this.state={
-            step2v: null,
-            step3v: null
+            step2v: this.props.step2v,
+            step3v: this.props.step3v,
+            today: date
         }
     }
 
@@ -35,8 +40,8 @@ class Step4 extends React.Component<InterProps,InterState>{
                                     <img src="http://s.zigbang.com/v2/danji/review_w_40.png" width={55}/>
                                 </td>
                                 <td style={{border:0}}>
-                                    <span>30대 남자</span> 
-                                    <span>123</span>
+                                    <span><b>30대 남자</b></span> 
+                                    <span className="S4sp1">{this.state.today}</span>
                                 </td>
                             </tr>
                             <tr>
