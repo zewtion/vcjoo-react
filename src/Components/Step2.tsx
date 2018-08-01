@@ -4,26 +4,14 @@ import '../App.css';
 import vData from '../data.json';
 
 interface InterStates {
-    checked1:boolean,
-    checked2:boolean,
-    checked3:boolean,
-    classNm1: string, 
-    classNm2: string, 
-    classNm3: string,
+    checked1:boolean, checked2:boolean, checked3:boolean,
+    classNm1: string, classNm2: string, classNm3: string,
     optionsDong: Array<{value:string; label:string; floor:number}>,
     optionsFloor: Array<{value:string; label:string}>,
-    selectedOption1:any,
-    selectedOption2:any,
-    selectedOption3:string,
-    closeNm1:string,
-    closeNm2:string,
-    closeNm3:string,
-    value11: string,
-    value12: string,
-    value21: string,
-    value22: string 
+    selectedOption1:any, selectedOption2:any, selectedOption3:string,
+    closeNm1:string, closeNm2:string, closeNm3:string,
+    value11: string, value12: string, value21: string, value22: string 
 }
-
 interface InterProps{
     clickPrev:any,
     clickNext:any,
@@ -46,29 +34,17 @@ class Step2 extends React.Component<InterProps, InterStates > {
         });
 
         this.state = {
-            checked1: false,
-            checked2: false,
-            checked3: false,
-            classNm1: "App-child-close",
-            classNm2: "App-child-close",
-            classNm3: "App-child-close",
-            closeNm1: "보기",
-            closeNm2: "보기",
-            closeNm3: "보기",
-            optionsDong: tempArray1,
+            checked1: false, checked2: false, checked3: false,
+            classNm1: "App-child-close", classNm2: "App-child-close", classNm3: "App-child-close",
+            closeNm1: "보기", closeNm2: "보기", closeNm3: "보기",
+            optionsDong: tempArray1, 
             optionsFloor: tempArray2,
-            selectedOption1: "",
-            selectedOption2: "",
-            selectedOption3: "",
-            value11: "",
-            value12: "",
-            value21: "",
-            value22: ""
+            selectedOption1: "", selectedOption2: "", selectedOption3: "",
+            value11: "", value12: "", value21: "", value22: ""
         }
     }
 
-    
-
+    // 1번째 셀렉트 박스 변경 시 호출
     public onChangeHandler = (selectedOption:any) => {
         /* tslint:disable:no-empty */
         this.setState({selectedOption1 : selectedOption});
@@ -93,17 +69,7 @@ class Step2 extends React.Component<InterProps, InterStates > {
 
     }
 
-    public selectBoxFloor = (selectedValue:any) => {
-        window.console.log( 'selectedValue: ' + selectedValue )
-        
-        if( selectedValue === null || selectedValue === ''){
-            return (<input type='text' placeholder='층 정보를 수기로 입력해주세요.'/>);
-        }else{
-            return (<Select options={this.state.optionsFloor}/>);
-            
-        }
-    }
-
+    // 각 대분류 3개 클릭
     public clickDiv = ( value:number ) => {
         if( value === 1 && this.state.classNm1 === "App-child-open" ){
             this.setState({
@@ -257,7 +223,7 @@ class Step2 extends React.Component<InterProps, InterStates > {
         }
     }
 
-      // 이전버튼 클릭
+    // 이전버튼 클릭
     public clickPrev = () => {
         this.props.clickPrev();
     }
@@ -287,7 +253,6 @@ class Step2 extends React.Component<InterProps, InterStates > {
 
     public componentDidUpdate( selectedOption:any ){
         /* tslint:disable:no-empty */
-        // window.console.log(" selectedOption.value: " + selectedOption.value );
     }
     public render() {
         const { selectedOption1, selectedOption2, selectedOption3 } = this.state;

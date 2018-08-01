@@ -4,7 +4,10 @@ import '../App.css';
 interface InterProps { 
     clickNext:any
 }
-interface InterStates { value2:string, checked1:boolean }
+interface InterStates { 
+    value2:string, 
+    checked1:boolean 
+}
 
 export default class Step1 extends React.Component<InterProps, InterStates>{
     constructor(props:any){
@@ -18,12 +21,14 @@ export default class Step1 extends React.Component<InterProps, InterStates>{
         }
     }
     
+    // 네 버튼 클릭
     public clickYes = () => {
         this.setState({
             checked1 : true,
             value2 : " [네]"
         });
     }
+    // 아니오 버튼 클릭
     public clickNo(){
         this.setState({
             value2 : " [아니오]"
@@ -33,6 +38,7 @@ export default class Step1 extends React.Component<InterProps, InterStates>{
         }
     }
 
+    // 다음 버튼 클릭
     public clickNext = () => {
         if( this.state.checked1 ){
             this.props.clickNext();
@@ -42,7 +48,6 @@ export default class Step1 extends React.Component<InterProps, InterStates>{
     }
 
     public render(){
-        
         return(
             <div>
                 <div className="App">

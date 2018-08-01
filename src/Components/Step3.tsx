@@ -28,6 +28,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 다음버튼 클릭
     public clickNext = () =>{
         const vv:boolean = this.checkStep3();
         if( vv ){
@@ -38,6 +39,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 1번째 분류 컨트롤
     public v1td = (flag:any) =>{
         if( flag === 1 ){
             this.setState({
@@ -54,6 +56,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 2번째 분류 컨트롤
     public v2td = (flag:any) =>{
         if( flag === 1 ){
             this.setState({
@@ -94,6 +97,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 3번재 분류 컨트롤
     public v3td = (flag:any) =>{
         if( flag === 1 ){
             this.setState({
@@ -128,6 +132,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 4번째 분류 컨트롤 
     public v4td = (flag:any) =>{
         if( flag === 1 ){
             this.setState({
@@ -144,6 +149,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // 5번째 분류 컨트롤
     public v5td = (flag:any) =>{
         if( flag === 1 ){
             this.setState({
@@ -160,6 +166,7 @@ class Step3 extends React.Component<InterProps,InterState>{
         }
     }
 
+    // Step3에 대한 유효성 검사
     public checkStep3 = () =>{
         const v1:boolean = ( this.state.value1 !== "" );
         const v2:boolean = ( this.state.value2 !== "" );
