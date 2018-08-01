@@ -4,6 +4,9 @@ import '../App.css';
 import vData from '../data.json';
 
 interface InterStates {
+    checked1:boolean,
+    checked2:boolean,
+    checked3:boolean,
     classNm1: string, 
     classNm2: string, 
     classNm3: string,
@@ -15,10 +18,18 @@ interface InterStates {
     closeNm1:string,
     closeNm2:string,
     closeNm3:string,
-    checked3:boolean
+    value11: string,
+    value12: string,
+    value21: string,
+    value22: string 
 }
 
-class Step2 extends React.Component<{}, InterStates > {
+interface InterProps{
+    clickPrev:any,
+    clickNext:any
+}
+
+class Step2 extends React.Component<InterProps, InterStates > {
     constructor(props:any){
         super(props);
         
@@ -34,6 +45,8 @@ class Step2 extends React.Component<{}, InterStates > {
         });
 
         this.state = {
+            checked1: false,
+            checked2: false,
             checked3: false,
             classNm1: "App-child-close",
             classNm2: "App-child-close",
@@ -45,7 +58,11 @@ class Step2 extends React.Component<{}, InterStates > {
             optionsFloor: tempArray2,
             selectedOption1: "",
             selectedOption2: "",
-            selectedOption3: ""
+            selectedOption3: "",
+            value11: "",
+            value12: "",
+            value21: "",
+            value22: ""
         }
     }
 
@@ -65,7 +82,12 @@ class Step2 extends React.Component<{}, InterStates > {
             optionsFloor : tempArray2
         });
 
-        // this.checkComplete(selectedOption);
+        if( this.state.selectedOption3 === "" ){
+            this.setState({
+                checked3 : false
+            });
+        }
+
     }
 
     public selectBoxFloor = (selectedValue:any) => {
@@ -113,11 +135,9 @@ class Step2 extends React.Component<{}, InterStates > {
         }
     }
 
-    // 섹션 별 상태가 변경 되면 작성 조건이 충족 되었는지 체크한다
+    // 동,층 정보 유효성 검사
     public checkComplete = (selectedOption:any) => {
         let isPass:boolean = false;
-
-        window.console.log("selectedOption3["+this.state.selectedOption3+"]");
 
         if( typeof(selectedOption.target) === "object" && selectedOption.target.value === "" ){
             this.setState({
@@ -131,32 +151,121 @@ class Step2 extends React.Component<{}, InterStates > {
                 selectedOption2 : "",
                 selectedOption3 : selectedOption.target.value
             });
+            if( selectedOption.target.value !== '' ){
+                isPass = true;
+            }
         }else if(typeof(selectedOption.target) !== "object"){
             this.setState({
                 selectedOption2 : selectedOption,
                 selectedOption3 : ""
             });
-        }
-        
-        if( typeof(this.state.selectedOption1.value) === 'undefined' || this.state.selectedOption1.value === '' ){
-            isPass = false;
-        }else{
-            isPass = true;
-        }
-
-        if( typeof(this.state.selectedOption2.value) === 'undefined' || this.state.selectedOption2.value !== '' ){
-            isPass = false;
-        }else{
-            isPass = true;
-        }
-
-        if( !isPass && this.state.selectedOption3 === "" ){
-            isPass = false;
-        }else{
-            isPass = true;
-        }
+            if( selectedOption.value !== '' ){
+                isPass = true;
+            }
+        }     
         // toggle to checkBox
         isPass ? this.setState({ checked3 : true }) : this.setState({ checked3 : false });
+        
+    }
+
+    // 교통여건 별점&50자 체크하기
+    public value11onChange = (onTarget:any) => {
+        if( onTarget.target.value !== "undefined" ){
+            this.setState({
+                value11 : onTarget.target.value
+            });
+        }
+
+        if( onTarget.target.value !== "undefined" && this.state.value12.length >= 50 ){
+            this.setState({
+                checked1 : true
+            });
+        }else{
+            this.setState({
+                checked1 : false
+            });
+        }
+        
+    }
+    // 교통여건 별점&50자 체크하기
+    public value12onChange = (onTarget:any) => {
+        const tempValue:string = onTarget.target.value;
+        this.setState({
+            value12 : tempValue
+        });
+        if( this.state.value11 !== "" && tempValue.length >= 50 ){
+            this.setState({
+                checked1 : true
+            });
+        }else{
+            this.setState({
+                checked1 : false
+            });
+        }
+        
+    }
+    // 주변환경 별점&50자 체크하기
+    public value21onChange = (onTarget:any) => {
+        if( onTarget.target.value !== "undefined" ){
+            this.setState({
+                value21 : onTarget.target.value
+            });
+        }
+
+        if( onTarget.target.value !== "undefined" && this.state.value22.length >= 50 ){
+            this.setState({
+                checked2 : true
+            });
+        }else{
+            this.setState({
+                checked2 : false
+            });
+        }
+        
+    }
+    // 주변환경 별점&50자 체크하기
+    public value22onChange = (onTarget:any) => {
+        const tempValue:string = onTarget.target.value;
+        this.setState({
+            value22 : tempValue
+        });
+        if( this.state.value21 !== "" && tempValue.length >= 50 ){
+            this.setState({
+                checked2 : true
+            });
+        }else{
+            this.setState({
+                checked2 : false
+            });
+        }
+        
+    }
+
+    // 전체 체크박스 체킹
+    public checkStep2 = () => {
+        const c1 = this.state.checked1;
+        const c2 = this.state.checked2;
+        const c3 = this.state.checked3;
+        
+        if( c1 && c2 && c3 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+      // 이전버튼 클릭
+    public clickPrev = () => {
+        this.props.clickPrev();
+    }
+
+    // 다음버튼 클릭
+    public clickNext = () => {
+        if( this.checkStep2 ){
+            this.props.clickNext();
+        }else{
+            alert("채워지지 않은 부분이 있습니다");
+        }
     }
 
     public componentDidUpdate( selectedOption:any ){
@@ -188,10 +297,12 @@ class Step2 extends React.Component<{}, InterStates > {
                 검색한 단지에 대해 아래의 항목들을 입력해주세요.
             </p>
             
-            <div id="div1" className="App-close" onClick={this.clickDiv.bind(this, 1)}><input type="checkBox" name="check1"/>교통여건[ {this.state.closeNm1} ]</div>
+            <div id="div1" className="App-close" onClick={this.clickDiv.bind(this, 1)}>
+                <input type="checkBox" name="check1" checked={this.state.checked1}/>교통여건[ {this.state.closeNm1} ]
+            </div>
             <div id="div11" className={this.state.classNm1}>
                 대중교통 이용이나, 자동차 운행과 같은 교통여건에 대해 평가해주세요.(50자이상)<br/>
-                <form className="rating">
+                <form className="rating" onClick={this.value11onChange}>
                     <label>
                         <input type="radio" name="stars1" value="1" />
                         <span className="icon">★</span>
@@ -222,20 +333,22 @@ class Step2 extends React.Component<{}, InterStates > {
                         <span className="icon">★</span>
                         <span className="icon">★</span>
                     </label>
-                    </form>
+                </form>
                 <br/>
                 <div>
                     (예시)삼각지역이 도보 3분 거리이고, 종각으로 가는 501버스를 집 바로 앞 버스류장에서 탈 수 있다
                     배차 간격이 짧아 출퇴근이 편리하다. 하지만 서울역이 근처에 있어서 차가 항상 막혀, 자가용 이용은
                     자제하려고 한다.<br/>
                 </div>
-                <textarea placeholder="교통 여건의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
+                <textarea placeholder="교통 여건의 장단점을 입력해주세요. (50자 이상 필수입력)" onChange={this.value12onChange} rows={10} style={{ width: '100%' }}/>
             </div>
 
-            <div id="div2" className="App-close" onClick={this.clickDiv.bind(this, 2)}><input type="checkBox" name="check2"/>주변환경[ {this.state.closeNm2} ]</div>
+            <div id="div2" className="App-close" onClick={this.clickDiv.bind(this, 2)}>
+                <input type="checkBox" name="check2" checked={this.state.checked2}/>주변환경[ {this.state.closeNm2} ]
+            </div>
             <div id="div21" className={this.state.classNm2}>
                 슈퍼(편의점), 백화점(대형마트), 산책로 공원 등의 주변 환경에 대해 말씀해주세요. (50자이상)
-                <form className="rating">
+                <form className="rating" onClick={this.value21onChange}>
                     <label>
                         <input type="radio" name="stars2" value="1" />
                         <span className="icon">★</span>
@@ -271,7 +384,7 @@ class Step2 extends React.Component<{}, InterStates > {
                 (예시)마을 버스로 2정거장이면 용산역 이마트도 있꼬, 정문 앞에 신선한 아채를 파는 레몬 마트가
                 있어서 장을 보기 편하다. 용산가족공원 바로 아래에 위치한 아파트여서, 아이들을 자주 데리고 나간다.
                 공기도 주변 아파트보다 더 맑은 느낌이다.<br/><br/>
-                <textarea placeholder="주변 환경의 장단점을 입력해주세요." rows={10} style={{ width: '100%' }}/>
+                <textarea placeholder="주변 환경의 장단점을 입력해주세요." onChange={this.value22onChange} rows={10} style={{ width: '100%' }}/>
             </div>
 
             <div id="div3" className="App-close" onClick={this.clickDiv.bind(this, 3)}>
@@ -281,6 +394,10 @@ class Step2 extends React.Component<{}, InterStates > {
                 거주 하셨던 동, 층 정보를 입력해 주세요.<br/>
                 {tbody}
             </div>
+            <p>
+                <code className="btnNext" onClick={this.clickPrev}>← 이전</code>
+                <code className="btnNext" onClick={this.clickNext}>다음 →</code>
+            </p>
         </div>
         );
     }

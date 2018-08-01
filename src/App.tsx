@@ -2,9 +2,9 @@ import * as React from 'react';
 import './App.css';
 import Step1 from './Components/Step1';
 import Step2 from './Components/Step2';
+import Step3 from './Components/Step3';
 
 interface InterStates { 
-  isStep1Condition: boolean, 
   isStep:number 
 }
 
@@ -13,16 +13,8 @@ class App extends React.Component< {}, InterStates> {
     super(props);
 
     this.state = {
-      isStep : 1,
-      isStep1Condition : false
+      isStep : 1
     }
-  }
-
-  // 스텝1 유효성 검사
-  public clickStep1Condition = ( value:boolean ) => {
-    this.setState({
-        isStep1Condition : value
-    });
   }
 
   // 이전버튼 클릭
@@ -34,13 +26,9 @@ class App extends React.Component< {}, InterStates> {
 
   // 다음버튼 클릭
   public clickNext = () => {
-    if( !this.state.isStep1Condition ){
-      window.alert('[네] 선택 후 넘어갈 수 있습니다');
-    }else{
-      this.setState({
-        isStep : this.state.isStep + 1
-      });
-    }
+    this.setState({
+      isStep : this.state.isStep + 1
+    });
   }
 
   public render() {
@@ -48,23 +36,21 @@ class App extends React.Component< {}, InterStates> {
     if( this.state.isStep === 1 ){
       renderStep = (
         <div>
-          <Step1 clickStep1Condition={this.clickStep1Condition} />
+          <Step1 clickNext={this.clickNext} />
         </div>
       );
     }else if( this.state.isStep === 2 ){
       renderStep = (
         <div>
-          <Step2/>
+          <Step2 clickPrev={this.clickPrev} clickNext={this.clickNext}/>
         </div>
       );
+    }else if( this.state.isStep === 3 ){
+      <Step3/>
     }
     return (
       <div> 
-        {renderStep} 
-        <p>
-          { this.state.isStep === 1 ? <code/> : <code className="btnNext" onClick={this.clickPrev}>← 이전</code> }
-          <code className="btnNext" onClick={this.clickNext}>다음 →</code>
-        </p>
+        {renderStep}
       </div>
     );
   }
