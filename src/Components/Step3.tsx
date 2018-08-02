@@ -32,7 +32,7 @@ class Step3 extends React.Component<InterProps,InterState>{
     public clickNext = () =>{
         const vv:boolean = this.checkStep3();
         if( vv ){
-            this.props.saveStep3();
+            this.saveStep3();
             this.props.clickNext();
         }else{
             alert( "모든항목 선택 후 이동 가능 합니다" );

@@ -243,10 +243,10 @@ class Step2 extends React.Component<InterProps, InterStates > {
     public saveStep2 = () =>{
         let myObject:any = null;
         myObject = {
-            value11 : this.state.value11,
+            value11 : this.state.value11 + '.0',
             value12 : this.state.value12,
-            value21 : this.state.value21,
-            value22 : this.state.value21
+            value21 : this.state.value21 + '.0',
+            value22 : this.state.value22
         }
         this.props.saveStep2( myObject );
     }

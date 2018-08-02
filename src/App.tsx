@@ -16,9 +16,20 @@ class App extends React.Component< {}, InterStates> {
     super(props);
 
     this.state = {
-      isStep: 2,
-      step2v: null,
-      step3v: null
+      isStep: 1,
+      step2v: {
+        value11 : "5.0",
+        value12 : "교통여건은..",
+        value21 : "5.0",
+        value22 : "주변환경은.."
+      },
+      step3v: {
+        value1 : "자가 거주",
+        value2 : "2014년까지",
+        value3 : "20대",
+        value4 : "남자",
+        value5 : "미혼"
+      }
     }
   }
 
@@ -41,7 +52,6 @@ class App extends React.Component< {}, InterStates> {
     this.setState({
       step2v : obj
     });
-    window.console.log("obj["+obj+"]");
   }
 
   // Step3에서 작성한 정보 저장
@@ -49,7 +59,6 @@ class App extends React.Component< {}, InterStates> {
     this.setState({
       step3v : obj
     });
-
   }
 
   public render() {
@@ -75,7 +84,7 @@ class App extends React.Component< {}, InterStates> {
     }else if( this.state.isStep === 4 ){
       renderStep = (
         <div>
-          <Step4 step2v={this.state.step3v} step3v={this.state.step3v}/>
+          <Step4 step2v={this.state.step2v} step3v={this.state.step3v}/>
         </div>
       );
   }
