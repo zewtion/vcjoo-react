@@ -248,6 +248,14 @@ class Step2 extends React.Component<InterProps, InterStates > {
             value21 : this.state.value21 + '.0',
             value22 : this.state.value22
         }
+
+        // 별점과 장단점을 로컬 스토리지에 저장한다
+        localStorage.setItem('value1_star',this.state.value11);
+        localStorage.setItem('value1_desc',this.state.value12);
+        localStorage.setItem('value2_star',this.state.value21);
+        localStorage.setItem('value2_desc',this.state.value22);
+        
+        // window.console.log("localStorage: "+ localStorage.getItem("value2_desc") );
         this.props.saveStep2( myObject );
     }
 
