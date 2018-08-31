@@ -32,7 +32,7 @@ class Step4 extends React.Component<InterProps,InterState>{
         const rating1:string = getRating( step2v.value11 );
         const rating2:string = getRating( step2v.value21 );
         return(
-            <React.Fragment>
+            <>
                 <header className="App-header">
                     <h1 className="App-title">작성리뷰 확인하기</h1>
                 </header>
@@ -67,7 +67,7 @@ class Step4 extends React.Component<InterProps,InterState>{
                     <h5>주변 환경 | {step2v.value21} {rating2}</h5>
                     <p> {step2v.value22} </p>
                 </div>
-            </React.Fragment>
+            </>
         )
     }
 }
